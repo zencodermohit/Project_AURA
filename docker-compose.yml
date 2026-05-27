@@ -1,0 +1,128 @@
+# ================================================================
+# AI Aura & Personality Reader — Docker Compose
+# ================================================================
+# Services:
+#   - kafka:     Apache Kafka 4.x (KRaft mode, no ZooKeeper)
+#   - fastapi:   FastAPI backend API (port 8000)
+#   - consumer:  Kafka consumer + AI processing
+#   - dashboard: Streamlit real-time dashboard (port 8501)
+#
+# Usage:
+#   docker-compose up --build
+#   docker-compose down -v
+# ================================================================
+
+services:
+  # ────────────────────────────────────────
+  # Apache Kafka — KRaft Mode (No ZooKeeper)
+  # ────────────────────────────────────────
+  kafka:
+    image: apache/kafka:latest
+    container_name: aura-kafka
+    ports:
+      - "9092:9092"      # External access (from host machine)
+    environment:
+      # KRaft configuration
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # Listener configuration (dual-listener pattern)
+      # PLAINTEXT = container-to-container (port 29092)
+      # EXTERNAL  = host machine access (port 9092)
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      # Single-node replication settings
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+      # Auto-create topics (for development convenience)
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      - aura-network
+    healthcheck:
+      test: /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:29092 --list || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # ────────────────────────────────────────
+  # FastAPI Backend — API Service
+  # ────────────────────────────────────────
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aura-fastapi
+    ports:
+      - "8000:8000"
+    environment:
+      SERVICE: fastapi
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - aura-network
+    restart: unless-stopped
+
+  # ────────────────────────────────────────
+  # Kafka Consumer — AI Processing Service
+  # ────────────────────────────────────────
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aura-consumer
+    environment:
+      SERVICE: consumer
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      API_URL: http://fastapi:8000
+    depends_on:
+      kafka:
+        condition: service_healthy
+      fastapi:
+        condition: service_started
+    networks:
+      - aura-network
+    restart: unless-stopped
+
+  # ────────────────────────────────────────
+  # Streamlit Dashboard — Frontend UI
+  # ────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aura-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      SERVICE: dashboard
+      API_URL: http://fastapi:8000
+    depends_on:
+      - fastapi
+    networks:
+      - aura-network
+    restart: unless-stopped
+
+# ────────────────────────────────────────
+# Volumes & Networks
+# ────────────────────────────────────────
+volumes:
+  kafka-data:
+    driver: local
+
+networks:
+  aura-network:
+    driver: bridge
+    name: aura-network
