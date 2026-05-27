@@ -1,0 +1,8 @@
+streamlit==1.41.1
+streamlit-autorefresh==1.0.1
+requests==2.32.3
+python-dateutil==2.9.0
+textblob==0.18.0.post0
+nltk==3.9.1
+vaderSentiment==3.3.2
+pillow==10.4.0
