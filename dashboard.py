@@ -20,7 +20,7 @@ from datetime import datetime
 # Configuration
 # ---------------------------------------------------------------------------
 
-API_URL: str = os.environ.get("API_URL", "http://localhost:8000")
+API_URL: str = os.environ.get("API_URL", "https://projectaura-production.up.railway.app")
 
 # Aura color mapping
 AURA_COLORS: dict[str, str] = {
