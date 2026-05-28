@@ -541,6 +541,29 @@ def render_mbti_results_reveal() -> None:
     
     st.markdown("<h2 class='text-center mt-2'>🔮 Your Personality Aura Decoded</h2>", unsafe_allow_html=True)
     
+    # MASSIVE GLOWING AURA PERCENTAGE CIRCLE
+    circumference = 2 * 3.14159 * 90
+    offset = circumference - (en_score / 100) * circumference
+    
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 1rem; margin-bottom: 2.5rem; flex-direction: column;">
+        <div style="position: relative; width: 220px; height: 220px; animation: float-in 0.8s ease-out;">
+            <!-- Outer Glow SVG -->
+            <svg width="220" height="220" viewBox="0 0 200 200" style="transform: rotate(-90deg);">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="{aura_color}15" stroke-width="12" />
+                <circle cx="100" cy="100" r="90" fill="none" stroke="{aura_color}" stroke-width="12" 
+                    stroke-dasharray="{circumference}" stroke-dashoffset="{offset}" 
+                    stroke-linecap="round" style="filter: drop-shadow(0 0 20px {aura_color}); transition: stroke-dashoffset 2s ease-out;" />
+            </svg>
+            <!-- Center Text -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <span style="font-size: 4rem; font-weight: 800; color: #fff; text-shadow: 0 0 25px {aura_color}; line-height: 1;">{en_score}<span style="font-size: 1.5rem; opacity:0.8;">%</span></span>
+                <span style="font-size: 0.9rem; color: #eee; text-transform: uppercase; letter-spacing: 3px; margin-top: 5px; font-weight:600;">Aura Energy</span>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
     col_photo, col_info = st.columns([1, 1.3])
     
     with col_photo:
@@ -627,11 +650,9 @@ def render_mbti_results_reveal() -> None:
             f_html = "".join(f'<span class="keyword-tag" style="border-color:{aura_color}40; color:#fff;">{p}</span>' for p in famous)
             st.markdown(f'<div class="trait-tags-container">{f_html}</div>', unsafe_allow_html=True)
             
-        col_es, col_cs = st.columns(2)
-        with col_es:
-            st.markdown(f"<div class='metric-card'><div class='metric-value' style='color:{aura_color};'>{en_score}</div><div class='metric-label'>Energy Vibe</div></div>", unsafe_allow_html=True)
+        col_cs, _ = st.columns([1, 1])
         with col_cs:
-            st.markdown(f"<div class='metric-card'><div class='metric-value' style='color:{aura_color};'>{conf_score}%</div><div class='metric-label'>Confidence</div></div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='metric-card'><div class='metric-value' style='color:{aura_color};'>{conf_score}%</div><div class='metric-label'>Self-Confidence</div></div>", unsafe_allow_html=True)
 
     if careers or romantic:
         st.markdown("<br/>", unsafe_allow_html=True)
