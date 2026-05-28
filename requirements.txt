@@ -5,3 +5,7 @@ python-dateutil==2.9.0
 textblob==0.18.0.post0
 nltk==3.9.1
 vaderSentiment==3.3.2
+fastapi>=0.100.0
+uvicorn>=0.23.0
+confluent-kafka>=2.2.0
+pillow>=10.0.0
