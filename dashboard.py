@@ -447,8 +447,6 @@ def render_mbti_camera_capture() -> None:
     <div style="background: rgba(155, 89, 182, 0.15); border: 2px dashed #9B59B6; border-radius: 12px; padding: 25px; text-align: center; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 0 25px rgba(155, 89, 182, 0.2);">
         <h2 style="color: #9B59B6; margin-top: 0; font-size: 2.2rem; letter-spacing: 2px;">📸 STEP 2: CAMERA CAPTURE</h2>
         <p style="font-size: 1.15rem; color: #fff; max-width: 600px; margin: 10px auto 0 auto; line-height: 1.6;">
-            Our visual processing engine needs to scan your face to detect brightness, color balance, and entropy to derive your aura. 
-            <br/><br/>
             <span style="color: #1ABC9C; font-weight: bold; font-size: 1.3rem;">👇 CLICK THE 'TAKE PHOTO' BUTTON INSIDE THE BOX BELOW 👇</span>
         </p>
     </div>
@@ -463,11 +461,11 @@ def render_mbti_camera_capture() -> None:
             st.rerun()
             
     with col2:
-        # Proceed either with a photo or fallback with neutral
         disabled = False
         button_label = "🔮 Reveal My MBTI Aura"
         if img_buffer is None:
-            button_label = "🔮 Reveal Without Photo"
+            disabled = True
+            button_label = "📸 Take Photo to Reveal Aura"
             
         if st.button(button_label, type="primary", use_container_width=True, disabled=disabled):
             st.session_state.mbti_submitting = True
