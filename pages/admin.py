@@ -6,6 +6,7 @@ st.set_page_config(
     page_title="Admin Exclusive | Project AURA",
     page_icon="🔒",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
 # Backend URL config
