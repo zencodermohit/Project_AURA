@@ -46,10 +46,15 @@ logger = logging.getLogger("aura.api")
 # ─────────────────────────────────────────────
 # Database Store (SQLite)
 # ─────────────────────────────────────────────
-DB_PATH = "database.db"
+DB_PATH = os.environ.get("DB_PATH", "data/database.db")
 results_lock = asyncio.Lock()
 
 def init_db():
+    # Make sure parent directory exists
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+        
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute('''
             CREATE TABLE IF NOT EXISTS results (
