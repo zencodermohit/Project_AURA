@@ -449,10 +449,18 @@ def render_mbti_questionnaire() -> None:
             st.rerun()
 
 def render_mbti_camera_capture() -> None:
-    st.markdown("<h3 class='text-center mt-2'>📸 Capture Your Visual Vibe</h3>", unsafe_allow_html=True)
-    st.markdown("<p class='text-center opacity-75'>Snap a quick selfie. Our Pillow visual processing engine will analyze brightness, color balance, and entropy to derive your aura.</p>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="background: rgba(155, 89, 182, 0.15); border: 2px dashed #9B59B6; border-radius: 12px; padding: 25px; text-align: center; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 0 25px rgba(155, 89, 182, 0.2);">
+        <h2 style="color: #9B59B6; margin-top: 0; font-size: 2.2rem; letter-spacing: 2px;">📸 STEP 2: CAMERA CAPTURE</h2>
+        <p style="font-size: 1.15rem; color: #fff; max-width: 600px; margin: 10px auto 0 auto; line-height: 1.6;">
+            Our visual processing engine needs to scan your face to detect brightness, color balance, and entropy to derive your aura. 
+            <br/><br/>
+            <span style="color: #1ABC9C; font-weight: bold; font-size: 1.3rem;">👇 CLICK THE 'TAKE PHOTO' BUTTON INSIDE THE BOX BELOW 👇</span>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    img_buffer = st.camera_input("Take a picture", key="mbti_selfie_camera")
+    img_buffer = st.camera_input("Camera Feed", key="mbti_selfie_camera", label_visibility="collapsed")
     
     col1, col2 = st.columns(2)
     with col1:
