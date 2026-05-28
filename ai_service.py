@@ -337,193 +337,211 @@ from PIL import Image, ImageStat
 # Scoring: 1 (Strongly Disagree) to 5 (Strongly Agree) -> Mapped to -2 to +2
 # Direction: 1 means Agree favors positive letter, -1 means Agree favors negative letter
 MBTI_QUESTIONS: list[dict[str, Any]] = [
-    # ── Extraversion (E) vs. Introversion (I) ──
-    {"id": "q1", "text": "I feel energized after spending time with a large group of people.", "dimension": "EI", "direction": 1},
-    {"id": "q2", "text": "I prefer having deep one-on-one conversations rather than group chats.", "dimension": "EI", "direction": -1},
-    {"id": "q3", "text": "I tend to express my thoughts out loud rather than keeping them private.", "dimension": "EI", "direction": 1},
-    {"id": "q4", "text": "I need quiet time alone to recharge my energy levels.", "dimension": "EI", "direction": -1},
-    {"id": "q5", "text": "I easily initiate conversations with people I don't know well.", "dimension": "EI", "direction": 1},
-    
-    # ── Sensing (S) vs. Intuition (N) ──
-    {"id": "q6", "text": "I focus more on real, concrete facts than abstract theories.", "dimension": "SN", "direction": 1},
-    {"id": "q7", "text": "I enjoy thinking about future possibilities and imaginative concepts.", "dimension": "SN", "direction": -1},
-    {"id": "q8", "text": "I prefer following a proven routine rather than creating new methods.", "dimension": "SN", "direction": 1},
-    {"id": "q9", "text": "I am often drawn to mysteries, symbols, and artistic meanings.", "dimension": "SN", "direction": -1},
-    {"id": "q10", "text": "I pay close attention to immediate details in my surroundings.", "dimension": "SN", "direction": 1},
-    
-    # ── Thinking (T) vs. Feeling (F) ──
-    {"id": "q11", "text": "In arguments, I prioritize logic and truth over emotional harmony.", "dimension": "TF", "direction": 1},
-    {"id": "q12", "text": "I am heavily swayed by my emotions and how a decision affects others.", "dimension": "TF", "direction": -1},
-    {"id": "q13", "text": "I think being objective and fair is more important than being gentle.", "dimension": "TF", "direction": 1},
-    {"id": "q14", "text": "I easily empathize with other people's feelings and struggles.", "dimension": "TF", "direction": -1},
-    {"id": "q15", "text": "I make decisions with my brain rather than listening to my heart.", "dimension": "TF", "direction": 1},
-    
-    # ── Judging (J) vs. Perceiving (P) ──
-    {"id": "q16", "text": "I prefer to have a detailed schedule rather than going with the flow.", "dimension": "JP", "direction": 1},
-    {"id": "q17", "text": "I feel comfortable adapting to last-minute changes and surprises.", "dimension": "JP", "direction": -1},
-    {"id": "q18", "text": "I complete my tasks and projects well before their deadlines.", "dimension": "JP", "direction": 1},
-    {"id": "q19", "text": "I like keeping my options open rather than locking down fixed plans.", "dimension": "JP", "direction": -1},
-    {"id": "q20", "text": "I keep my work and living spaces highly organized and neat.", "dimension": "JP", "direction": 1},
+    # Questions are shuffled across dimensions. The scoring map below defines
+    # which dimension each question truly measures, and the direction of scoring.
+    # direction +1 = agree pushes toward the FIRST letter (E, S, T, J)
+    # direction -1 = agree pushes toward the SECOND letter (I, N, F, P)
+
+    # q1: "honest truth vs protect feelings" -> Thinking (+1)
+    {"id": "q1", "dimension": "TF", "direction": 1},
+    # q2: "pack the night before" -> Perceiving (-1 on JP scale)
+    {"id": "q2", "dimension": "JP", "direction": -1},
+    # q3: "Friday night involves other people" -> Extraversion (+1)
+    {"id": "q3", "dimension": "EI", "direction": 1},
+    # q4: "zone out into a thought chain" -> Intuition (-1 on SN scale)
+    {"id": "q4", "dimension": "SN", "direction": -1},
+    # q5: "hard to enjoy movie with plot holes" -> Thinking (+1)
+    {"id": "q5", "dimension": "TF", "direction": 1},
+    # q6: "think out loud, best ideas from talking" -> Extraversion (+1)
+    {"id": "q6", "dimension": "EI", "direction": 1},
+    # q7: "notice crooked frame / hairstyle change" -> Sensing (+1)
+    {"id": "q7", "dimension": "SN", "direction": 1},
+    # q8: "satisfaction when to-do list is checked off" -> Judging (+1)
+    {"id": "q8", "dimension": "JP", "direction": 1},
+    # q9: "alone all weekend sounds refreshing" -> Introversion (-1)
+    {"id": "q9", "dimension": "EI", "direction": -1},
+    # q10: "more interested in what could exist" -> Intuition (-1)
+    {"id": "q10", "dimension": "SN", "direction": -1},
+    # q11: "understand both sides logically in a fight" -> Thinking (+1)
+    {"id": "q11", "dimension": "TF", "direction": 1},
+    # q12: "unexpected changes excite you" -> Perceiving (-1)
+    {"id": "q12", "dimension": "JP", "direction": -1},
+    # q13: "recharge by going somewhere crowded" -> Extraversion (+1)
+    {"id": "q13", "dimension": "EI", "direction": 1},
+    # q14: "trust gut feeling with no logical reason" -> Intuition (-1)
+    {"id": "q14", "dimension": "SN", "direction": -1},
+    # q15: "world would be better if people relied on reason" -> Thinking (+1)
+    {"id": "q15", "dimension": "TF", "direction": 1},
+    # q16: "prefer keeping options open" -> Perceiving (-1)
+    {"id": "q16", "dimension": "JP", "direction": -1},
+    # q17: "process thoughts internally, share only conclusion" -> Introversion (-1)
+    {"id": "q17", "dimension": "EI", "direction": -1},
+    # q18: "rather master a proven skill than experiment" -> Sensing (+1)
+    {"id": "q18", "dimension": "SN", "direction": 1},
+    # q19: "easily absorb emotions of people around you" -> Feeling (-1)
+    {"id": "q19", "dimension": "TF", "direction": -1},
+    # q20: "messy workspace with an internal system" -> Perceiving (-1)
+    {"id": "q20", "dimension": "JP", "direction": -1},
 ]
 
 # Rich MBTI personality profiles (16 types)
 MBTI_PROFILES: dict[str, dict[str, Any]] = {
     "INTJ": {
-        "title": "Architect",
+        "title": "The Future Griever",
         "color": "#9B59B6",
         "energy_level": "Deep Strategic Energy",
         "traits": ["analytical", "independent", "determined", "ambitious"],
-        "description": "You are a strategic thinker with a thirst for knowledge. You prefer objective structure, focus on long-term plans, and defy standard conventions through innovative logic.",
+        "description": "You mourn future outcomes before they happen. You mentally simulate conversations so much that real conversations feel slow. You appear emotionally cold because you compress emotions into analysis. You disappear completely when overwhelmed instead of asking for help. You trust competence faster than kindness.",
         "careers": ["Systems Engineer", "Software Architect", "Strategic Planner", "Investment Banker"],
         "famous_people": ["Elon Musk", "Nikola Tesla", "Michelle Obama", "Friedrich Nietzsche"],
         "romantic_compatible": ["Intellectually stimulating debaters", "Independent visionaries", "People who respect personal space"]
     },
     "INTP": {
-        "title": "Logician",
+        "title": "The Emotional Archivist",
         "color": "#4A90E2",
         "energy_level": "Quiet Intellectual Energy",
         "traits": ["analytical", "curious", "objective", "unconventional"],
-        "description": "You are a quiet thinker who loves analyzing patterns. You appreciate abstract ideas, theoretical science, and solving complex problems with innovative method.",
+        "description": "You remember emotional humiliation with almost photographic clarity. You rehearse conversations alone afterward for hours. Your room may look chaotic, but you know where everything is conceptually. You become extremely loyal once someone respects your intellectual independence. Deep down, you secretly fear becoming ordinary more than failing.",
         "careers": ["Data Scientist", "Research Analyst", "Philosopher", "Security Analyst"],
         "famous_people": ["Albert Einstein", "Marie Curie", "Bill Gates", "Isaac Newton"],
         "romantic_compatible": ["Open-minded explorers", "Patient listeners", "Partners who enjoy deep theoretical conversations"]
     },
     "ENTJ": {
-        "title": "Commander",
+        "title": "The Exhausted Commander",
         "color": "#C0392B",
         "energy_level": "Powerful Directing Energy",
         "traits": ["assertive", "efficient", "driven", "strategic"],
-        "description": "You are a bold, commanding leader. You easily organize efficient teams, devise logical strategies, and direct others toward victory and ambitious goals.",
+        "description": "You measure love through competence and reliability, not words. You can become deeply depressed when you lose momentum or direction. You secretly envy carefree people. You frequently overestimate how emotionally resilient others are. Your biggest insecurity is irrelevance — not failure.",
         "careers": ["Project Manager", "CEO / Executive", "Management Consultant", "Venture Capitalist"],
         "famous_people": ["Steve Jobs", "Margaret Thatcher", "Franklin D. Roosevelt", "Gordon Ramsay"],
         "romantic_compatible": ["Driven and ambitious partners", "People who appreciate direct honesty", "Supportive confidants"]
     },
     "ENTP": {
-        "title": "Debater",
+        "title": "The Hidden Self-Saboteur",
         "color": "#E67E22",
         "energy_level": "Vibrant Disruptive Energy",
         "traits": ["creative", "witty", "curious", "bold"],
-        "description": "You are a fearless challenger who loves exploring possibilities. You disrupt conventional frameworks, play with radical concepts, and love witty debate.",
+        "description": "You argue against your own beliefs just to test reality. You can accidentally manipulate people without intending to because you naturally see psychological weak points. You become quiet and detached during emotional pain instead of dramatic. You get addicted to potential energy more than achievement itself — and you frequently abandon projects right before success because finishing removes possibility space.",
         "careers": ["Product Innovator", "Entrepreneur", "Creative Director", "Systems Designer"],
         "famous_people": ["Mark Twain", "Thomas Edison", "Tom Hanks", "Celine Dion"],
         "romantic_compatible": ["Intellectual sparring partners", "Spontaneous adventurers", "People with a sharp sense of humor"]
     },
     "INFJ": {
-        "title": "Advocate",
+        "title": "The Human Contradiction",
         "color": "#1ABC9C",
         "energy_level": "Ethereal Harmonious Energy",
         "traits": ["idealistic", "principled", "insightful", "visionary"],
-        "description": "You are a compassionate visionary. Guided by deep intuition and integrity, you seek to understand others, support meaningful causes, and quieten discord.",
+        "description": "You feel simultaneously detached from people and obsessed with understanding them. You predict relationship endings months early but stay anyway. You can suddenly door-slam people after tolerating too much for too long. You often feel older than your age mentally. Your intuition works so fast you cannot explain how you know something.",
         "careers": ["Clinical Counselor", "Environmentalist", "Writer", "Nurturing Advisor"],
         "famous_people": ["Martin Luther King Jr.", "Nelson Mandela", "Mother Teresa", "Lady Gaga"],
         "romantic_compatible": ["Authentic and genuine souls", "Deeply empathetic listeners", "Partners who value meaningful connection"]
     },
     "INFP": {
-        "title": "Mediator",
+        "title": "The Silent Intensity",
         "color": "#2ECC71",
         "energy_level": "Warm Nurturing Energy",
         "traits": ["idealistic", "sensitive", "creative", "harmonious"],
-        "description": "You are a sensitive, idealistic soul. You seek warm connection, value emotional authenticity, and possess a gentle, empathetic drive to heal and comfort.",
+        "description": "You appear calm while feeling emotions at extreme intensity internally. You attach memories to songs more strongly than most people. You disappear from people you love when emotionally overwhelmed. You have an internal moral system stronger than any external rules. You frequently feel guilty for not becoming who you imagined you could be.",
         "careers": ["Creative Writer", "Psychotherapist", "Artist", "Humanitarian Worker"],
         "famous_people": ["William Shakespeare", "Vincent van Gogh", "Princess Diana", "Keanu Reeves"],
         "romantic_compatible": ["Gentle and romantic partners", "People who appreciate art and beauty", "Loyal and supportive confidants"]
     },
     "ENFJ": {
-        "title": "Protagonist",
+        "title": "The Emotional Strategist",
         "color": "#F1C40F",
         "energy_level": "Radiant Charismatic Energy",
         "traits": ["charismatic", "inspiring", "altruistic", "confident"],
-        "description": "You are a charismatic, inspiring leader. You excel at nurturing other people's growth, leading supportive communities, and advocating with warm passion.",
+        "description": "You can read social hierarchy unusually fast. You know how someone feels before they say it. You sometimes over-help others to avoid facing your own emotional needs. You can become frighteningly persuasive when emotionally convinced. Your burnout is invisible because you keep functioning while collapsing internally.",
         "careers": ["Public Relations Specialist", "Teacher / Educator", "Community Organizer", "Nonprofit Executive"],
         "famous_people": ["Barack Obama", "Oprah Winfrey", "John Malovich", "Malala Yousafzai"],
         "romantic_compatible": ["People who appreciate active encouragement", "Partners who value deep emotional bonds", "Driven but compassionate souls"]
     },
     "ENFP": {
-        "title": "Campaigner",
+        "title": "The Identity Shape-Shifter",
         "color": "#27AE60",
         "energy_level": "High Creative Spark",
         "traits": ["enthusiastic", "creative", "social", "independent"],
-        "description": "You are a free-spirited, enthusiastic creator. You see possibilities everywhere, express your feelings warmly, and thrive on artistic and social freedom.",
+        "description": "You unconsciously mirror personalities around you. People only see your fun layer, so you often feel deeply misunderstood. You can suddenly become hyper-serious after emotional betrayal. You predict emotional outcomes before logical ones. Your biggest battle is always discipline versus inspiration.",
         "careers": ["Marketing Director", "Event Producer", "Journalist", "Creative Designer"],
         "famous_people": ["Walt Disney", "Robin Williams", "Quentin Tarantino", "Robert Downey Jr."],
         "romantic_compatible": ["Imaginative dreamers", "Partners who love spontaneous travel", "People who embrace emotional depth"]
     },
     "ISTJ": {
-        "title": "Logistician",
+        "title": "The Memory Guardian",
         "color": "#34495E",
         "energy_level": "Focused Analytical Vibe",
         "traits": ["responsible", "dutiful", "logical", "orderly"],
-        "description": "You are a responsible, detail-oriented individual. You respect established systems, work with systematic efficiency, and complete projects with precise order.",
+        "description": "You remember tiny factual inconsistencies for years. You trust routines because routines reduce mental chaos. You can become deeply sentimental about traditions. You have a surprisingly dry humor that catches people off guard. You feel responsible for stability even when nobody asked you to.",
         "careers": ["Systems Administrator", "Financial Auditor", "Database Manager", "Operations Manager"],
         "famous_people": ["George Washington", "Angela Merkel", "Queen Elizabeth II", "Warren Buffett"],
         "romantic_compatible": ["Reliable and loyal partners", "People who value traditional romance", "Stable and practical companions"]
     },
     "ISFJ": {
-        "title": "Defender",
+        "title": "The Invisible Protector",
         "color": "#AED6F1",
         "energy_level": "Steady Protective Energy",
         "traits": ["caring", "reliable", "dedicated", "protective"],
-        "description": "You are a dedicated, reliable defender. You support your loved ones with quiet patience, maintain warm traditions, and bring order to messy situations.",
+        "description": "You solve problems before others even notice them. You can tolerate discomfort for years without complaining. You remember personal details people forget telling you. You feel emotionally safest in familiar environments. Your kindness becomes dangerous when people exploit your loyalty.",
         "careers": ["Healthcare Specialist", "Social worker", "Customer Success Lead", "Office Administrator"],
         "famous_people": ["Mother Teresa", "Beyoncé", "Kate Middleton", "Rosa Parks"],
         "romantic_compatible": ["Warm and appreciative partners", "People who value family and harmony", "Gentle and patient souls"]
     },
     "ESTJ": {
-        "title": "Executive",
+        "title": "The Burden Carrier",
         "color": "#2980B9",
         "energy_level": "Structured Systematic Energy",
         "traits": ["organized", "decisive", "practical", "efficient"],
-        "description": "You are a practical, organized executive. You thrive on system structure, manage tasks systematically, and make logical, objective decisions quickly.",
+        "description": "You quietly carry responsibilities other people avoid. You show affection through structure and protection, not words. You can become unexpectedly emotional about family loyalty. You hate inefficiency more than difficulty. Your stress often appears as anger when it is actually exhaustion.",
         "careers": ["Sales Executive", "Project Lead", "Chief Operations Officer", "Financial Manager"],
         "famous_people": ["John D. Rockefeller", "Judge Judy", "Frank Sinatra", "Sonia Sotomayor"],
         "romantic_compatible": ["Partners who respect order and commitment", "People who appreciate acts of service", "Reliable and honest companions"]
     },
     "ESFJ": {
-        "title": "Consul",
+        "title": "The Emotional Historian",
         "color": "#FD79A8",
         "energy_level": "Outgoing Altruistic Vibe",
         "traits": ["outgoing", "supportive", "loyal", "social"],
-        "description": "You are a highly social, supportive helper. You naturally foster deep relationships, care for others with warm heart, and value loyal organization.",
+        "description": "You remember exactly who supported you during difficult periods. You notice subtle social exclusion before others do. You overextend yourself just to maintain harmony. Criticism hurts deeply because you attach self-worth to social value. You secretly wish people cared for you as intensely as you care for them.",
         "careers": ["Human Resources Generalist", "Community Coordinator", "Publicist", "Elementary Teacher"],
         "famous_people": ["Taylor Swift", "Bill Clinton", "Jennifer Lopez", "Steve Harvey"],
         "romantic_compatible": ["Affectionate and expressive partners", "People who love social gatherings", "Loyal and dependable souls"]
     },
     "ISTP": {
-        "title": "Virtuoso",
+        "title": "The Silent Problem Solver",
         "color": "#7F8C8D",
         "energy_level": "Flexible Tactical Energy",
         "traits": ["practical", "bold", "independent", "adaptable"],
-        "description": "You are a practical, independent builder. You enjoy dissecting physical systems, testing logical tools, and resolving tactical problems spontaneously.",
+        "description": "You emotionally process things while doing physical tasks. You disappear socially when stressed. You dislike being emotionally analyzed. You can become obsessively skilled at niche systems. You value freedom so strongly that control feels suffocating to you.",
         "careers": ["DevOps Engineer", "Forensic Investigator", "Mechanical Engineer", "Systems Technician"],
         "famous_people": ["Michael Jordan", "Clint Eastwood", "Tom Cruise", "Bruce Lee"],
         "romantic_compatible": ["Partners who respect independence", "People who enjoy shared activities over talking", "Spontaneous and low-drama companions"]
     },
     "ISFP": {
-        "title": "Adventurer",
+        "title": "The Quiet Rebel",
         "color": "#a29bfe",
         "energy_level": "Serene Creative Vibe",
         "traits": ["artistic", "sensitive", "free-spirited", "quiet"],
-        "description": "You are an artistic, free-spirited wanderer. You connect with deep aesthetic harmony, express feelings silently, and follow creative inspirations.",
+        "description": "You resist control silently rather than aggressively. You express emotions better through art, music, aesthetics, or actions than words. You disappear when you feel emotionally misunderstood. You have surprisingly strong internal convictions despite appearing relaxed. You value authenticity more than status.",
         "careers": ["Graphic Designer", "Photographer", "Landscape Designer", "Therapist"],
         "famous_people": ["Michael Jackson", "Frida Kahlo", "Lana Del Rey", "Cher"],
         "romantic_compatible": ["Partners who appreciate art and nature", "People who respect emotional boundaries", "Gentle and spontaneous souls"]
     },
     "ESTP": {
-        "title": "Entrepreneur",
+        "title": "The Chaos Navigator",
         "color": "#F39C12",
         "energy_level": "Bold Action-Oriented Vibe",
         "traits": ["energetic", "action-oriented", "spontaneous", "bold"],
-        "description": "You are a bold, spontaneous action-taker. You navigate reality logically, thrive under high-stakes efficiency, and conquer challenges energetically.",
+        "description": "You can enter crisis mode with almost unnatural calmness. You think faster under pressure than during planning. You hate feeling emotionally trapped more than physically trapped. You joke during serious moments to regain control. You learn through impact, not theory.",
         "careers": ["Startup Founder", "Crisis Manager", "Technical Consultant", "Financial Broker"],
         "famous_people": ["Donald Trump", "Madonna", "Ernest Hemingway", "Meryl Streep"],
         "romantic_compatible": ["Fun-loving and active partners", "People who enjoy fast-paced living", "Direct and pragmatic companions"]
     },
     "ESFP": {
-        "title": "Entertainer",
+        "title": "The Hidden Deep Feeler",
         "color": "#FF7675",
         "energy_level": "Vibrant Playful Spark",
         "traits": ["vivacious", "playful", "spontaneous", "enthusiastic"],
-        "description": "You are a playful, spontaneous entertainer. You love warm social connection, bring high creative joy to others, and thrive on fun, sensory experiences.",
+        "description": "You are much more emotionally complex than people assume. You use humor to prevent emotional heaviness. You can become intensely nostalgic. You crave genuine emotional attention, not just popularity. You sense group energy shifts instantly.",
         "careers": ["Event Planner", "Public Speaker", "UX Designer", "Marketing Manager"],
         "famous_people": ["Marilyn Monroe", "Elvis Presley", "Elizabeth Taylor", "Justin Bieber"],
         "romantic_compatible": ["Partners who love to laugh and have fun", "People who are affectionate and present", "Spontaneous and outgoing companions"]

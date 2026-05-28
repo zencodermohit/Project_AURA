@@ -354,30 +354,50 @@ def render_text_results(result: dict) -> None:
 # ---------------------------------------------------------------------------
 
 MBTI_QUESTIONS_DATA = [
-    # E vs I
-    {"id": "q1", "text": "I feel energized after spending time with a large group of people.", "section": "Social Vibe (E/I)"},
-    {"id": "q2", "text": "I prefer having deep one-on-one conversations rather than group chats.", "section": "Social Vibe (E/I)"},
-    {"id": "q3", "text": "I tend to express my thoughts out loud rather than keeping them private.", "section": "Social Vibe (E/I)"},
-    {"id": "q4", "text": "I need quiet time alone to recharge my energy levels.", "section": "Social Vibe (E/I)"},
-    {"id": "q5", "text": "I easily initiate conversations with people I don't know well.", "section": "Social Vibe (E/I)"},
-    # S vs N
-    {"id": "q6", "text": "I focus more on real, concrete facts than abstract theories.", "section": "Mental Exploration (S/N)"},
-    {"id": "q7", "text": "I enjoy thinking about future possibilities and imaginative concepts.", "section": "Mental Exploration (S/N)"},
-    {"id": "q8", "text": "I prefer following a proven routine rather than creating new methods.", "section": "Mental Exploration (S/N)"},
-    {"id": "q9", "text": "I am often drawn to mysteries, symbols, and artistic meanings.", "section": "Mental Exploration (S/N)"},
-    {"id": "q10", "text": "I pay close attention to immediate details in my surroundings.", "section": "Mental Exploration (S/N)"},
-    # T vs F
-    {"id": "q11", "text": "In arguments, I prioritize logic and truth over emotional harmony.", "section": "Decision Core (T/F)"},
-    {"id": "q12", "text": "I am heavily swayed by my emotions and how a decision affects others.", "section": "Decision Core (T/F)"},
-    {"id": "q13", "text": "I think being objective and fair is more important than being gentle.", "section": "Decision Core (T/F)"},
-    {"id": "q14", "text": "I easily empathize with other people's feelings and struggles.", "section": "Decision Core (T/F)"},
-    {"id": "q15", "text": "I make decisions with my brain rather than listening to my heart.", "section": "Decision Core (T/F)"},
-    # J vs P
-    {"id": "q16", "text": "I prefer to have a detailed schedule rather than going with the flow.", "section": "Daily Structure (J/P)"},
-    {"id": "q17", "text": "I feel comfortable adapting to last-minute changes and surprises.", "section": "Daily Structure (J/P)"},
-    {"id": "q18", "text": "I complete my tasks and projects well before their deadlines.", "section": "Daily Structure (J/P)"},
-    {"id": "q19", "text": "I like keeping my options open rather than locking down fixed plans.", "section": "Daily Structure (J/P)"},
-    {"id": "q20", "text": "I keep my work and living spaces highly organized and neat.", "section": "Daily Structure (J/P)"},
+    # Questions are deliberately shuffled across all 4 dimensions and worded
+    # indirectly so users cannot game the system or predict their type.
+    # The "section" labels are vague to hide what is being measured.
+
+    # T vs F (disguised)
+    {"id": "q1", "text": "When a close friend makes a terrible decision, you'd rather tell them the honest truth than protect their feelings.", "section": "Inner Compass"},
+    # J vs P (disguised)
+    {"id": "q2", "text": "You often start packing for a trip the night before instead of days ahead.", "section": "Life Rhythm"},
+    # E vs I (disguised)
+    {"id": "q3", "text": "After a long, exhausting week, your ideal Friday night involves other people.", "section": "Energy Source"},
+    # S vs N (disguised)
+    {"id": "q4", "text": "You sometimes zone out of a conversation because a random thought chain pulled you somewhere fascinating.", "section": "Mental Lens"},
+    # T vs F (disguised)
+    {"id": "q5", "text": "You find it hard to enjoy a movie if the plot has logical holes, even if it's emotionally powerful.", "section": "Inner Compass"},
+    # E vs I (disguised)
+    {"id": "q6", "text": "You tend to think out loud — your best ideas come from talking, not sitting in silence.", "section": "Energy Source"},
+    # S vs N (disguised)
+    {"id": "q7", "text": "You notice when a picture frame is slightly crooked or when someone changes their hairstyle.", "section": "Mental Lens"},
+    # J vs P (disguised)
+    {"id": "q8", "text": "You feel a quiet satisfaction when every item on your to-do list is checked off.", "section": "Life Rhythm"},
+    # E vs I (disguised)
+    {"id": "q9", "text": "Being alone for an entire weekend sounds more refreshing than draining.", "section": "Energy Source"},
+    # S vs N (disguised)
+    {"id": "q10", "text": "You are more interested in what could exist than what already does.", "section": "Mental Lens"},
+    # T vs F (disguised)
+    {"id": "q11", "text": "When two friends are fighting, you instinctively try to understand both sides logically rather than comfort either one first.", "section": "Inner Compass"},
+    # J vs P (disguised)
+    {"id": "q12", "text": "Unexpected changes to your plans genuinely excite you more than they annoy you.", "section": "Life Rhythm"},
+    # E vs I (disguised)
+    {"id": "q13", "text": "You recharge by going somewhere crowded and lively, not by retreating to a quiet room.", "section": "Energy Source"},
+    # S vs N (disguised)
+    {"id": "q14", "text": "You trust your gut feeling about someone even when there is no logical reason to.", "section": "Mental Lens"},
+    # T vs F (disguised)
+    {"id": "q15", "text": "You believe the world would be better if people relied on reason instead of emotions for big decisions.", "section": "Inner Compass"},
+    # J vs P (disguised)
+    {"id": "q16", "text": "You prefer keeping your options open rather than committing to one fixed plan early.", "section": "Life Rhythm"},
+    # E vs I (disguised)
+    {"id": "q17", "text": "You often process your deepest thoughts internally and share only the conclusion.", "section": "Energy Source"},
+    # S vs N (disguised)
+    {"id": "q18", "text": "You would rather master a proven skill than experiment with an unproven theory.", "section": "Mental Lens"},
+    # T vs F (disguised)
+    {"id": "q19", "text": "You easily absorb the emotions of people around you, even strangers.", "section": "Inner Compass"},
+    # J vs P (disguised)
+    {"id": "q20", "text": "Your workspace is messy but you have a strange internal system that works perfectly for you.", "section": "Life Rhythm"},
 ]
 
 def render_mbti_stepper(step: int) -> None:
