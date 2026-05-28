@@ -315,6 +315,7 @@ async def analyze_mbti_personality(
     request_id = result.get("request_id") or str(uuid.uuid4())
     result["request_id"] = request_id
     result["user_id"] = "anonymous"
+    result["raw_answers"] = answers_dict
 
     # Save the photo to disk
     if file and image_bytes:
@@ -338,13 +339,16 @@ async def analyze_mbti_personality(
     return result
 
 
-@app.get("/results", response_model=list[AuraResult], tags=["Results"])
-async def get_all_results():
+@app.get("/results", tags=["Results"])
+async def get_all_results(admin_token: str = None):
     """
-    Retrieve all analysis results.
-
-    Returns the most recent results first (up to 50).
+    Retrieve all stored aura/MBTI results.
+    PROTECTED: Requires correct admin_token to access.
     """
+    expected_token = os.environ.get("ADMIN_TOKEN", "default_secret")
+    if admin_token != expected_token:
+        raise HTTPException(status_code=401, detail="Unauthorized access to exclusive database")
+        
     async with results_lock:
         all_results = get_all_results_db()
 

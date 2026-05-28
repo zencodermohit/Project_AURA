@@ -347,37 +347,7 @@ def render_text_results(result: dict) -> None:
         st.markdown(f'<div class="timestamp">Analyzed at {timestamp[:19].replace("T", " ")}</div>', unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-def render_history_list() -> None:
-    st.markdown("---")
-    st.markdown('<div class="section-header">📜 Historical verbal Readings</div>', unsafe_allow_html=True)
-    history = api_request("get", "/results")
-    if history is None:
-        st.markdown('<div class="empty-state">🔌 Backend unreachable</div>', unsafe_allow_html=True)
-        return
-    if not history or len(history) == 0:
-        st.markdown('<div class="empty-state">🌌 No past analyses recorded</div>', unsafe_allow_html=True)
-        return
 
-    for entry in history[:6]:
-        # Skip MBTI entries in history list if they have photo_url
-        if "mbti_type" in entry:
-            continue
-        aura = entry.get("aura_type", "Unknown")
-        color = get_aura_color(aura)
-        ts = entry.get("timestamp", "")
-        traits = entry.get("personality_traits", [])
-        traits_preview = ", ".join(traits[:3])
-
-        st.markdown(
-            f"""
-            <div class="history-card" style="border-left: 3px solid {color};">
-                <div class="history-aura-type" style="color:{color};">🔮 {aura}</div>
-                <div class="history-timestamp">{ts[:19].replace("T", " ")}</div>
-                <div class="history-traits">{traits_preview}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
 
 # ---------------------------------------------------------------------------
 # MODE 2: MBTI & Camera Selfie Reader
@@ -688,45 +658,7 @@ def render_mbti_results_reveal() -> None:
             st.session_state.mbti_result = None
             st.rerun()
 
-def render_mbti_history() -> None:
-    st.markdown("---")
-    st.markdown('<div class="section-header">📜 MBTI Historical readings</div>', unsafe_allow_html=True)
-    history = api_request("get", "/results")
-    if history is None:
-        return
-        
-    mbti_readings = [entry for entry in history if "mbti_type" in entry]
-    
-    if not mbti_readings:
-        st.markdown('<div class="empty-state">🌌 No past MBTI selfie logs yet</div>', unsafe_allow_html=True)
-        return
-        
-    for entry in mbti_readings[:6]:
-        mcode = entry.get("mbti_type", "INFJ")
-        title = entry.get("title", "")
-        color = get_aura_color(mcode)
-        ts = entry.get("timestamp", "")
-        vibe = entry.get("vibe", {})
-        photo = entry.get("photo_url")
-        
-        img_html = ""
-        if photo:
-            img_html = f'<img src="{API_URL}{photo}" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:2px solid {color}; margin-right:15px;"/>'
-        else:
-            img_html = f'<div style="width:45px; height:45px; border-radius:50%; background:{color}30; border:2px solid {color}; display:flex; justify-content:center; align-items:center; margin-right:15px; font-size:1.2rem;">🔮</div>'
-            
-        st.markdown(
-            f"""
-            <div class="history-card" style="border-left: 3px solid {color}; display:flex; align-items:center;">
-                {img_html}
-                <div style="flex:1;">
-                    <div style="color:{color}; font-weight:700; font-size:1.05rem;">{mcode} — The {title}</div>
-                    <div class="history-timestamp">{ts[:19].replace("T", " ")} • <span style="color:{vibe.get('visual_color', '#fff')};">{vibe.get('visual_aura', '')}</span></div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+
 
 # ---------------------------------------------------------------------------
 # Main Flow
@@ -748,8 +680,6 @@ def main() -> None:
             render_text_input_section()
             if st.session_state.current_result:
                 render_text_results(st.session_state.current_result)
-        render_history_list()
-        
     else:
         # MODE 2 (MBTI)
         render_header("20-Question MBTI & Camera Vibe Integrator")
@@ -763,8 +693,5 @@ def main() -> None:
             render_mbti_camera_capture()
         else:
             render_mbti_results_reveal()
-            
-        render_mbti_history()
-
 if __name__ == "__main__":
     main()
