@@ -1430,3 +1430,72 @@ html[data-theme="dark"] .stepper-step {
     color: var(--aura-visionary) !important;
 }
 
+/* ---------------------------------------------------------------------------
+   17. MOBILE RESPONSIVENESS (SMARTPHONE COMPATIBILITY)
+   --------------------------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+    .aura-header h1 {
+        font-size: 2.2rem !important;
+        letter-spacing: 3px;
+    }
+    
+    .aura-header .subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .stButton > button[kind="primary"],
+    .stButton > button {
+        width: 100% !important;
+        padding: 0.8rem 1rem !important;
+    }
+
+    .metric-card .metric-value {
+        font-size: 1.8rem;
+    }
+    
+    .metric-card {
+        padding: 1rem;
+    }
+
+    .stRadio > div[role="radiogroup"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+    
+    .stRadio > div[role="radiogroup"] label {
+        flex-direction: row !important;
+        text-align: left;
+    }
+
+    .aura-card {
+        padding: 1.2rem;
+    }
+
+    .aura-card .aura-type-name {
+        font-size: 1.5rem;
+    }
+
+    .analyzing-text {
+        font-size: 1.2rem;
+    }
+    
+    .analyzing-orb {
+        width: 80px;
+        height: 80px;
+    }
+
+    .stepper-container {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .admin-header {
+        font-size: 1.8rem;
+    }
+
+    .stat-card h1 {
+        font-size: 2rem;
+    }
+}
