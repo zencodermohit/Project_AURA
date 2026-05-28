@@ -1,25 +1,8 @@
-# ============================================
-# AI Aura & Personality Reader - Dependencies
-# ============================================
-
-# --- Backend API ---
-fastapi==0.115.6
-uvicorn[standard]==0.34.0
-pydantic==2.10.4
-
-# --- Kafka ---
-confluent-kafka==2.13.0
-
-# --- NLP / AI ---
-textblob==0.18.0.post0
-nltk==3.9.1
-vaderSentiment==3.3.2
-pillow==10.4.0
-
-# --- Dashboard ---
 streamlit==1.41.1
 streamlit-autorefresh==1.0.1
 requests==2.32.3
-
-# --- Utilities ---
 python-dateutil==2.9.0
+textblob==0.18.0.post0
+nltk==3.9.1
+vaderSentiment==3.3.2
+Pillow==11.2.1
