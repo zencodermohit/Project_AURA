@@ -554,6 +554,7 @@ def render_mbti_results_reveal() -> None:
     desc = result.get("description", "")
     careers = result.get("careers", [])
     famous = result.get("famous_people", [])
+    romantic = result.get("romantic_compatible", [])
     en_score = result.get("energy_score", 50)
     conf_score = result.get("confidence_score", 50)
     dichotomies = result.get("dichotomies", {})
@@ -641,11 +642,6 @@ def render_mbti_results_reveal() -> None:
             st.markdown('<div class="section-header">🧬 Core MBTI Traits</div>', unsafe_allow_html=True)
             tags_html = "".join(f'<span class="trait-tag" style="background: {aura_color}20; border: 1px solid {aura_color}60;">{t}</span>' for t in traits)
             st.markdown(f'<div class="trait-tags-container">{tags_html}</div>', unsafe_allow_html=True)
-            
-        if careers:
-            st.markdown('<div class="section-header mt-3">💼 Ideal Career Alignments</div>', unsafe_allow_html=True)
-            c_html = "".join(f'<span class="keyword-tag" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">{c}</span>' for c in careers)
-            st.markdown(f'<div class="trait-tags-container">{c_html}</div>', unsafe_allow_html=True)
 
     with col_stats:
         if famous:
@@ -658,6 +654,29 @@ def render_mbti_results_reveal() -> None:
             st.markdown(f"<div class='metric-card'><div class='metric-value' style='color:{aura_color};'>{en_score}</div><div class='metric-label'>Energy Vibe</div></div>", unsafe_allow_html=True)
         with col_cs:
             st.markdown(f"<div class='metric-card'><div class='metric-value' style='color:{aura_color};'>{conf_score}%</div><div class='metric-label'>Confidence</div></div>", unsafe_allow_html=True)
+
+    if careers or romantic:
+        st.markdown("<br/>", unsafe_allow_html=True)
+        col_c, col_r = st.columns(2)
+        with col_c:
+            if careers:
+                c_html = "".join(f'<span class="keyword-tag" style="background:rgba(255,255,255,0.08); border:1px solid {aura_color}80; color:#fff;">{c}</span>' for c in careers)
+                st.markdown(f"""
+                <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03), {aura_color}15); border: 1px solid {aura_color}50; border-radius: 16px; padding: 20px; height: 100%; box-shadow: 0 0 20px {aura_color}20; transition: transform 0.2s;">
+                    <h3 style="color: {aura_color}; margin-top: 0; font-size: 1.4rem;">💼 Career Prospects</h3>
+                    <div class="trait-tags-container" style="margin-top: 15px;">{c_html}</div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        with col_r:
+            if romantic:
+                r_html = "".join(f'<span class="keyword-tag" style="background:rgba(255,255,255,0.08); border:1px solid #ff475780; color:#fff;">{r}</span>' for r in romantic)
+                st.markdown(f"""
+                <div style="background: linear-gradient(145deg, rgba(255,255,255,0.03), #ff475715); border: 1px solid #ff475750; border-radius: 16px; padding: 20px; height: 100%; box-shadow: 0 0 20px #ff475720; transition: transform 0.2s;">
+                    <h3 style="color: #ff4757; margin-top: 0; font-size: 1.4rem;">💕 Romantic Compatibility</h3>
+                    <div class="trait-tags-container" style="margin-top: 15px;">{r_html}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     st.markdown("<br/>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1, 1])

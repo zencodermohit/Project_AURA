@@ -16,6 +16,7 @@ import json
 import uuid
 import asyncio
 import logging
+import sqlite3
 from datetime import datetime, timezone
 from typing import Optional, Any
 from contextlib import asynccontextmanager
@@ -43,10 +44,44 @@ logging.basicConfig(
 logger = logging.getLogger("aura.api")
 
 # ─────────────────────────────────────────────
-# In-Memory Results Store
+# Database Store (SQLite)
 # ─────────────────────────────────────────────
-results_store: dict[str, dict] = {}
+DB_PATH = "database.db"
 results_lock = asyncio.Lock()
+
+def init_db():
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS results (
+                request_id TEXT PRIMARY KEY,
+                timestamp TEXT,
+                data TEXT
+            )
+        ''')
+        conn.commit()
+
+def save_result(request_id: str, result_dict: dict):
+    timestamp = result_dict.get("timestamp", datetime.now(timezone.utc).isoformat())
+    data_json = json.dumps(result_dict)
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO results (request_id, timestamp, data) VALUES (?, ?, ?)",
+            (request_id, timestamp, data_json)
+        )
+        conn.commit()
+
+def get_all_results_db():
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.execute("SELECT data FROM results ORDER BY timestamp DESC LIMIT 50")
+        return [json.loads(row[0]) for row in cursor.fetchall()]
+
+def get_result_by_id(request_id: str):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.execute("SELECT data FROM results WHERE request_id = ?", (request_id,))
+        row = cursor.fetchone()
+        if row:
+            return json.loads(row[0])
+        return None
 
 # ─────────────────────────────────────────────
 # Pydantic Models
@@ -117,6 +152,9 @@ async def lifespan(app: FastAPI):
 
     # Ensure static directories exist
     os.makedirs("static/uploads", exist_ok=True)
+    
+    # Initialize database
+    init_db()
 
     logger.info("🚀 Starting AI Aura & Personality Reader API...")
     logger.info(f"📡 Kafka Bootstrap: {KAFKA_BOOTSTRAP}")
@@ -233,7 +271,7 @@ async def analyze_text(request: AnalyzeRequest):
     result["user_id"] = request.user_id
 
     async with results_lock:
-        results_store[request_id] = result
+        save_result(request_id, result)
 
     logger.info(f"✅ Sync analysis complete | aura={result['aura_type']} | request_id={request_id}")
 
@@ -294,7 +332,7 @@ async def analyze_mbti_personality(
         result["photo_url"] = None
 
     async with results_lock:
-        results_store[request_id] = result
+        save_result(request_id, result)
 
     logger.info(f"✅ MBTI analysis complete | type={result['mbti_type']} | request_id={request_id}")
     return result
@@ -308,12 +346,9 @@ async def get_all_results():
     Returns the most recent results first (up to 50).
     """
     async with results_lock:
-        all_results = list(results_store.values())
+        all_results = get_all_results_db()
 
-    # Sort by timestamp descending (most recent first)
-    all_results.sort(key=lambda r: r.get("timestamp", ""), reverse=True)
-
-    return all_results[:50]
+    return all_results
 
 
 @app.get("/results/{request_id}", tags=["Results"])
@@ -325,7 +360,7 @@ async def get_result(request_id: str):
     or if the request_id is unknown.
     """
     async with results_lock:
-        result = results_store.get(request_id)
+        result = get_result_by_id(request_id)
 
     if result is None:
         raise HTTPException(
@@ -350,7 +385,7 @@ async def store_result(result: StoreResultRequest):
     result_data = result.model_dump()
 
     async with results_lock:
-        results_store[result.request_id] = result_data
+        save_result(result.request_id, result_data)
 
     logger.info(
         f"💾 Result stored | request_id={result.request_id} | "

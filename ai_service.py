@@ -375,7 +375,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["analytical", "independent", "determined", "ambitious"],
         "description": "You are a strategic thinker with a thirst for knowledge. You prefer objective structure, focus on long-term plans, and defy standard conventions through innovative logic.",
         "careers": ["Systems Engineer", "Software Architect", "Strategic Planner", "Investment Banker"],
-        "famous_people": ["Elon Musk", "Nikola Tesla", "Michelle Obama", "Friedrich Nietzsche"]
+        "famous_people": ["Elon Musk", "Nikola Tesla", "Michelle Obama", "Friedrich Nietzsche"],
+        "romantic_compatible": ["Intellectually stimulating debaters", "Independent visionaries", "People who respect personal space"]
     },
     "INTP": {
         "title": "Logician",
@@ -384,7 +385,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["analytical", "curious", "objective", "unconventional"],
         "description": "You are a quiet thinker who loves analyzing patterns. You appreciate abstract ideas, theoretical science, and solving complex problems with innovative method.",
         "careers": ["Data Scientist", "Research Analyst", "Philosopher", "Security Analyst"],
-        "famous_people": ["Albert Einstein", "Marie Curie", "Bill Gates", "Isaac Newton"]
+        "famous_people": ["Albert Einstein", "Marie Curie", "Bill Gates", "Isaac Newton"],
+        "romantic_compatible": ["Open-minded explorers", "Patient listeners", "Partners who enjoy deep theoretical conversations"]
     },
     "ENTJ": {
         "title": "Commander",
@@ -393,7 +395,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["assertive", "efficient", "driven", "strategic"],
         "description": "You are a bold, commanding leader. You easily organize efficient teams, devise logical strategies, and direct others toward victory and ambitious goals.",
         "careers": ["Project Manager", "CEO / Executive", "Management Consultant", "Venture Capitalist"],
-        "famous_people": ["Steve Jobs", "Margaret Thatcher", "Franklin D. Roosevelt", "Gordon Ramsay"]
+        "famous_people": ["Steve Jobs", "Margaret Thatcher", "Franklin D. Roosevelt", "Gordon Ramsay"],
+        "romantic_compatible": ["Driven and ambitious partners", "People who appreciate direct honesty", "Supportive confidants"]
     },
     "ENTP": {
         "title": "Debater",
@@ -402,7 +405,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["creative", "witty", "curious", "bold"],
         "description": "You are a fearless challenger who loves exploring possibilities. You disrupt conventional frameworks, play with radical concepts, and love witty debate.",
         "careers": ["Product Innovator", "Entrepreneur", "Creative Director", "Systems Designer"],
-        "famous_people": ["Mark Twain", "Thomas Edison", "Tom Hanks", "Celine Dion"]
+        "famous_people": ["Mark Twain", "Thomas Edison", "Tom Hanks", "Celine Dion"],
+        "romantic_compatible": ["Intellectual sparring partners", "Spontaneous adventurers", "People with a sharp sense of humor"]
     },
     "INFJ": {
         "title": "Advocate",
@@ -411,7 +415,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["idealistic", "principled", "insightful", "visionary"],
         "description": "You are a compassionate visionary. Guided by deep intuition and integrity, you seek to understand others, support meaningful causes, and quieten discord.",
         "careers": ["Clinical Counselor", "Environmentalist", "Writer", "Nurturing Advisor"],
-        "famous_people": ["Martin Luther King Jr.", "Nelson Mandela", "Mother Teresa", "Lady Gaga"]
+        "famous_people": ["Martin Luther King Jr.", "Nelson Mandela", "Mother Teresa", "Lady Gaga"],
+        "romantic_compatible": ["Authentic and genuine souls", "Deeply empathetic listeners", "Partners who value meaningful connection"]
     },
     "INFP": {
         "title": "Mediator",
@@ -420,7 +425,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["idealistic", "sensitive", "creative", "harmonious"],
         "description": "You are a sensitive, idealistic soul. You seek warm connection, value emotional authenticity, and possess a gentle, empathetic drive to heal and comfort.",
         "careers": ["Creative Writer", "Psychotherapist", "Artist", "Humanitarian Worker"],
-        "famous_people": ["William Shakespeare", "Vincent van Gogh", "Princess Diana", "Keanu Reeves"]
+        "famous_people": ["William Shakespeare", "Vincent van Gogh", "Princess Diana", "Keanu Reeves"],
+        "romantic_compatible": ["Gentle and romantic partners", "People who appreciate art and beauty", "Loyal and supportive confidants"]
     },
     "ENFJ": {
         "title": "Protagonist",
@@ -429,7 +435,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["charismatic", "inspiring", "altruistic", "confident"],
         "description": "You are a charismatic, inspiring leader. You excel at nurturing other people's growth, leading supportive communities, and advocating with warm passion.",
         "careers": ["Public Relations Specialist", "Teacher / Educator", "Community Organizer", "Nonprofit Executive"],
-        "famous_people": ["Barack Obama", "Oprah Winfrey", "John Malovich", "Malala Yousafzai"]
+        "famous_people": ["Barack Obama", "Oprah Winfrey", "John Malovich", "Malala Yousafzai"],
+        "romantic_compatible": ["People who appreciate active encouragement", "Partners who value deep emotional bonds", "Driven but compassionate souls"]
     },
     "ENFP": {
         "title": "Campaigner",
@@ -438,7 +445,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["enthusiastic", "creative", "social", "independent"],
         "description": "You are a free-spirited, enthusiastic creator. You see possibilities everywhere, express your feelings warmly, and thrive on artistic and social freedom.",
         "careers": ["Marketing Director", "Event Producer", "Journalist", "Creative Designer"],
-        "famous_people": ["Walt Disney", "Robin Williams", "Quentin Tarantino", "Robert Downey Jr."]
+        "famous_people": ["Walt Disney", "Robin Williams", "Quentin Tarantino", "Robert Downey Jr."],
+        "romantic_compatible": ["Imaginative dreamers", "Partners who love spontaneous travel", "People who embrace emotional depth"]
     },
     "ISTJ": {
         "title": "Logistician",
@@ -447,7 +455,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["responsible", "dutiful", "logical", "orderly"],
         "description": "You are a responsible, detail-oriented individual. You respect established systems, work with systematic efficiency, and complete projects with precise order.",
         "careers": ["Systems Administrator", "Financial Auditor", "Database Manager", "Operations Manager"],
-        "famous_people": ["George Washington", "Angela Merkel", "Queen Elizabeth II", "Warren Buffett"]
+        "famous_people": ["George Washington", "Angela Merkel", "Queen Elizabeth II", "Warren Buffett"],
+        "romantic_compatible": ["Reliable and loyal partners", "People who value traditional romance", "Stable and practical companions"]
     },
     "ISFJ": {
         "title": "Defender",
@@ -456,7 +465,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["caring", "reliable", "dedicated", "protective"],
         "description": "You are a dedicated, reliable defender. You support your loved ones with quiet patience, maintain warm traditions, and bring order to messy situations.",
         "careers": ["Healthcare Specialist", "Social worker", "Customer Success Lead", "Office Administrator"],
-        "famous_people": ["Mother Teresa", "Beyoncé", "Kate Middleton", "Rosa Parks"]
+        "famous_people": ["Mother Teresa", "Beyoncé", "Kate Middleton", "Rosa Parks"],
+        "romantic_compatible": ["Warm and appreciative partners", "People who value family and harmony", "Gentle and patient souls"]
     },
     "ESTJ": {
         "title": "Executive",
@@ -465,7 +475,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["organized", "decisive", "practical", "efficient"],
         "description": "You are a practical, organized executive. You thrive on system structure, manage tasks systematically, and make logical, objective decisions quickly.",
         "careers": ["Sales Executive", "Project Lead", "Chief Operations Officer", "Financial Manager"],
-        "famous_people": ["John D. Rockefeller", "Judge Judy", "Frank Sinatra", "Sonia Sotomayor"]
+        "famous_people": ["John D. Rockefeller", "Judge Judy", "Frank Sinatra", "Sonia Sotomayor"],
+        "romantic_compatible": ["Partners who respect order and commitment", "People who appreciate acts of service", "Reliable and honest companions"]
     },
     "ESFJ": {
         "title": "Consul",
@@ -474,7 +485,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["outgoing", "supportive", "loyal", "social"],
         "description": "You are a highly social, supportive helper. You naturally foster deep relationships, care for others with warm heart, and value loyal organization.",
         "careers": ["Human Resources Generalist", "Community Coordinator", "Publicist", "Elementary Teacher"],
-        "famous_people": ["Taylor Swift", "Bill Clinton", "Jennifer Lopez", "Steve Harvey"]
+        "famous_people": ["Taylor Swift", "Bill Clinton", "Jennifer Lopez", "Steve Harvey"],
+        "romantic_compatible": ["Affectionate and expressive partners", "People who love social gatherings", "Loyal and dependable souls"]
     },
     "ISTP": {
         "title": "Virtuoso",
@@ -483,7 +495,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["practical", "bold", "independent", "adaptable"],
         "description": "You are a practical, independent builder. You enjoy dissecting physical systems, testing logical tools, and resolving tactical problems spontaneously.",
         "careers": ["DevOps Engineer", "Forensic Investigator", "Mechanical Engineer", "Systems Technician"],
-        "famous_people": ["Michael Jordan", "Clint Eastwood", "Tom Cruise", "Bruce Lee"]
+        "famous_people": ["Michael Jordan", "Clint Eastwood", "Tom Cruise", "Bruce Lee"],
+        "romantic_compatible": ["Partners who respect independence", "People who enjoy shared activities over talking", "Spontaneous and low-drama companions"]
     },
     "ISFP": {
         "title": "Adventurer",
@@ -492,7 +505,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["artistic", "sensitive", "free-spirited", "quiet"],
         "description": "You are an artistic, free-spirited wanderer. You connect with deep aesthetic harmony, express feelings silently, and follow creative inspirations.",
         "careers": ["Graphic Designer", "Photographer", "Landscape Designer", "Therapist"],
-        "famous_people": ["Michael Jackson", "Frida Kahlo", "Lana Del Rey", "Cher"]
+        "famous_people": ["Michael Jackson", "Frida Kahlo", "Lana Del Rey", "Cher"],
+        "romantic_compatible": ["Partners who appreciate art and nature", "People who respect emotional boundaries", "Gentle and spontaneous souls"]
     },
     "ESTP": {
         "title": "Entrepreneur",
@@ -501,7 +515,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["energetic", "action-oriented", "spontaneous", "bold"],
         "description": "You are a bold, spontaneous action-taker. You navigate reality logically, thrive under high-stakes efficiency, and conquer challenges energetically.",
         "careers": ["Startup Founder", "Crisis Manager", "Technical Consultant", "Financial Broker"],
-        "famous_people": ["Donald Trump", "Madonna", "Ernest Hemingway", "Meryl Streep"]
+        "famous_people": ["Donald Trump", "Madonna", "Ernest Hemingway", "Meryl Streep"],
+        "romantic_compatible": ["Fun-loving and active partners", "People who enjoy fast-paced living", "Direct and pragmatic companions"]
     },
     "ESFP": {
         "title": "Entertainer",
@@ -510,7 +525,8 @@ MBTI_PROFILES: dict[str, dict[str, Any]] = {
         "traits": ["vivacious", "playful", "spontaneous", "enthusiastic"],
         "description": "You are a playful, spontaneous entertainer. You love warm social connection, bring high creative joy to others, and thrive on fun, sensory experiences.",
         "careers": ["Event Planner", "Public Speaker", "UX Designer", "Marketing Manager"],
-        "famous_people": ["Marilyn Monroe", "Elvis Presley", "Elizabeth Taylor", "Justin Bieber"]
+        "famous_people": ["Marilyn Monroe", "Elvis Presley", "Elizabeth Taylor", "Justin Bieber"],
+        "romantic_compatible": ["Partners who love to laugh and have fun", "People who are affectionate and present", "Spontaneous and outgoing companions"]
     }
 }
 
@@ -727,6 +743,7 @@ def analyze_mbti(answers: dict[str, int], image_bytes: Optional[bytes] = None) -
         "description": profile["description"],
         "careers": profile["careers"],
         "famous_people": profile["famous_people"],
+        "romantic_compatible": profile.get("romantic_compatible", []),
         "energy_score": energy_score,
         "confidence_score": confidence_score,
         "dichotomies": {
