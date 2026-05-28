@@ -56,6 +56,8 @@ def init_db():
         os.makedirs(db_dir, exist_ok=True)
         
     with sqlite3.connect(DB_PATH) as conn:
+        # Enable WAL mode for high concurrency
+        conn.execute("PRAGMA journal_mode=WAL;")
         conn.execute('''
             CREATE TABLE IF NOT EXISTS results (
                 request_id TEXT PRIMARY KEY,

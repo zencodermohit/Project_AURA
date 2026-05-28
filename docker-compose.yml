@@ -72,8 +72,8 @@ services:
       kafka:
         condition: service_healthy
     volumes:
-      - ./data:/app/data
-      - ./static/uploads:/app/static/uploads
+      - aura-db-volume:/app/data
+      - aura-selfie-volume:/app/static/uploads
     networks:
       - aura-network
     restart: unless-stopped
@@ -123,6 +123,10 @@ services:
 # ────────────────────────────────────────
 volumes:
   kafka-data:
+    driver: local
+  aura-db-volume:
+    driver: local
+  aura-selfie-volume:
     driver: local
 
 networks:
