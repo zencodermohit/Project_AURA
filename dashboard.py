@@ -358,46 +358,26 @@ MBTI_QUESTIONS_DATA = [
     # indirectly so users cannot game the system or predict their type.
     # The "section" labels are vague to hide what is being measured.
 
-    # T vs F (disguised)
-    {"id": "q1", "text": "When a close friend makes a terrible decision, you'd rather tell them the honest truth than protect their feelings.", "section": "Inner Compass"},
-    # J vs P (disguised)
-    {"id": "q2", "text": "You often start packing for a trip the night before instead of days ahead.", "section": "Life Rhythm"},
-    # E vs I (disguised)
-    {"id": "q3", "text": "After a long, exhausting week, your ideal Friday night involves other people.", "section": "Energy Source"},
-    # S vs N (disguised)
-    {"id": "q4", "text": "You sometimes zone out of a conversation because a random thought chain pulled you somewhere fascinating.", "section": "Mental Lens"},
-    # T vs F (disguised)
-    {"id": "q5", "text": "You find it hard to enjoy a movie if the plot has logical holes, even if it's emotionally powerful.", "section": "Inner Compass"},
-    # E vs I (disguised)
-    {"id": "q6", "text": "You tend to think out loud — your best ideas come from talking, not sitting in silence.", "section": "Energy Source"},
-    # S vs N (disguised)
-    {"id": "q7", "text": "You notice when a picture frame is slightly crooked or when someone changes their hairstyle.", "section": "Mental Lens"},
-    # J vs P (disguised)
-    {"id": "q8", "text": "You feel a quiet satisfaction when every item on your to-do list is checked off.", "section": "Life Rhythm"},
-    # E vs I (disguised)
-    {"id": "q9", "text": "Being alone for an entire weekend sounds more refreshing than draining.", "section": "Energy Source"},
-    # S vs N (disguised)
-    {"id": "q10", "text": "You are more interested in what could exist than what already does.", "section": "Mental Lens"},
-    # T vs F (disguised)
-    {"id": "q11", "text": "When two friends are fighting, you instinctively try to understand both sides logically rather than comfort either one first.", "section": "Inner Compass"},
-    # J vs P (disguised)
-    {"id": "q12", "text": "Unexpected changes to your plans genuinely excite you more than they annoy you.", "section": "Life Rhythm"},
-    # E vs I (disguised)
-    {"id": "q13", "text": "You recharge by going somewhere crowded and lively, not by retreating to a quiet room.", "section": "Energy Source"},
-    # S vs N (disguised)
-    {"id": "q14", "text": "You trust your gut feeling about someone even when there is no logical reason to.", "section": "Mental Lens"},
-    # T vs F (disguised)
-    {"id": "q15", "text": "You believe the world would be better if people relied on reason instead of emotions for big decisions.", "section": "Inner Compass"},
-    # J vs P (disguised)
-    {"id": "q16", "text": "You prefer keeping your options open rather than committing to one fixed plan early.", "section": "Life Rhythm"},
-    # E vs I (disguised)
-    {"id": "q17", "text": "You often process your deepest thoughts internally and share only the conclusion.", "section": "Energy Source"},
-    # S vs N (disguised)
-    {"id": "q18", "text": "You would rather master a proven skill than experiment with an unproven theory.", "section": "Mental Lens"},
-    # T vs F (disguised)
-    {"id": "q19", "text": "You easily absorb the emotions of people around you, even strangers.", "section": "Inner Compass"},
-    # J vs P (disguised)
-    {"id": "q20", "text": "Your workspace is messy but you have a strange internal system that works perfectly for you.", "section": "Life Rhythm"},
+    {"id": "q1", "text": "Do you prefer telling friends the honest truth rather than protecting their feelings?"},
+    {"id": "q2", "text": "Do you tend to pack for trips at the last minute?"},
+    {"id": "q3", "text": "After a long week, does spending time with friends sound energizing?"},
+    {"id": "q4", "text": "Do you often lose yourself in interesting daydream sequences?"},
+    {"id": "q5", "text": "Are logical consistency and accuracy more important to you than pure emotional impact?"},
+    {"id": "q6", "text": "Do you express your best thoughts by talking out loud instead of sitting in silence?"},
+    {"id": "q7", "text": "Do you immediately notice small details like a crooked picture frame or new haircut?"},
+    {"id": "q8", "text": "Do you get a distinct sense of satisfaction from completing tasks on a checklist?"},
+    {"id": "q9", "text": "Does being completely alone for a weekend refresh you?"},
+    {"id": "q10", "text": "Are you more drawn to exploring future possibilities than studying current realities?"},
+    {"id": "q11", "text": "When resolving conflicts, do you look at facts objectively instead of picking emotional sides?"},
+    {"id": "q12", "text": "Do sudden changes to plans excite you rather than frustrate you?"},
+    {"id": "q13", "text": "Do you gain energy in active, crowded spots rather than quiet corners?"},
+    {"id": "q14", "text": "Do you trust intuitive gut feelings even when no logic supports them?"},
+    {"id": "q15", "text": "Should major social decisions be driven by pure reasoning rather than empathy?"},
+    {"id": "q16", "text": "Do you prefer keeping your schedule open and flexible instead of locked down?"},
+    {"id": "q17", "text": "Do you process your thoughts internally before sharing a final decision?"},
+    {"id": "q18", "text": "Would you rather practice a tried-and-tested method than experiment with new theories?"},
+    {"id": "q19", "text": "Do you naturally absorb the emotional energies of the room around you?"},
+    {"id": "q20", "text": "Is your room or desk messy even though you know exactly where everything is?"},
 ]
 
 def render_mbti_stepper(step: int) -> None:
@@ -428,19 +408,13 @@ def render_mbti_stepper(step: int) -> None:
 
 def render_mbti_questionnaire() -> None:
     st.markdown("<h3 class='text-center mt-2'>🧬 MBTI Personality Questionnaire</h3>", unsafe_allow_html=True)
-    st.markdown("<p class='text-center opacity-75'>Answer these 20 questions to analyze your baseline personality profile.</p>", unsafe_allow_html=True)
+    st.markdown("<p class='text-center opacity-75'>Answer these 20 simple questions to analyze your baseline personality profile.</p>", unsafe_allow_html=True)
     
     # Initialize answers mapping if empty
     if not st.session_state.mbti_answers:
         st.session_state.mbti_answers = {q["id"]: 3 for q in MBTI_QUESTIONS_DATA}
         
-    current_section = ""
-    
     for q in MBTI_QUESTIONS_DATA:
-        if q["section"] != current_section:
-            current_section = q["section"]
-            st.markdown(f"<h4 style='color:#9B59B6; margin-top:2rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px;'>✦ {current_section}</h4>", unsafe_allow_html=True)
-            
         st.markdown(f"<div class='question-card'><div class='question-text'>{q['text']}</div>", unsafe_allow_html=True)
         
         # Horizontal agreement radio buttons
